@@ -41,7 +41,6 @@ namespace Keepr.Services
             }
             found.Name = updatedKeep.Name;
             found.Description = updatedKeep.Description;
-            found.Name = updatedKeep.Name;
             found.Img = updatedKeep.Img != null ? updatedKeep.Img : found.Img;
             return _repo.Edit(found);
         }

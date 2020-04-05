@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <h1>Welcome Home</h1>
+{{ publicKeeps }}
   </div>
 </template>
 
@@ -10,7 +11,8 @@ export default {
   computed: {
     user() {
       return this.$store.state.user;
-    }
+    },
+   
   },
   methods: {
     logout() {
