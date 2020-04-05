@@ -1,12 +1,16 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard container-fluid">
+
     <h1>WELCOME TO THE DASHBOARD</h1>
-    public {{ publicKeeps }} user {{ userKeeps }}
-  </div>
+      <keeps v-for="keep in publicKeeps" :key="keep.id" :keepData="keep" />
+    </div>
 </template>
 
 <script>
+
+import keeps from "../components/Keep";
 export default {
+  name: "dashboard",
   mounted() {
     this.$store.dispatch("getPublicKeeps")
   },
@@ -14,6 +18,9 @@ export default {
      publicKeeps(){
       return this.$store.state.publicKeeps;
     }
+  },
+  components: {
+    keeps
   }
 };
 </script>

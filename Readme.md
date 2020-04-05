@@ -61,6 +61,7 @@ What this site is already pretty if you follow the mocks :wink: Make sure the fe
 
 - Users can:
 
+
 - Register, login and be automatically logged on page refresh
 - Create and Delete Keeps
 - Create and Delete Vaults
