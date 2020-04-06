@@ -18,8 +18,8 @@ namespace Keepr.Controllers
             _vs = vs;
         }
         [HttpGet]
-         [Authorize]
-        public ActionResult<IEnumerable<Keep>> GetUserKeeps()
+        // [Authorize]
+        public ActionResult<IEnumerable<Vault>> Get()
         {
             try
             {

@@ -30,7 +30,7 @@
     </form>
   </div>
   <div class="row">
-      <vaults v-for="vault in vaults" :key="vault.id" :vaultData="vault" />
+      <vaults v-for="vault in myVaults" :key="vault.id" :vaultData="vault" />
     </div>
 </div>
 
@@ -46,8 +46,11 @@
 import vaults from "../components/Vault";
 export default {
   name: "dashboard",
-  mounted() {
+ mounted() {
     this.$store.dispatch("getVaults")
+    this.$store.dispatch("getPublicKeeps")
+
+
   },
   
    data() {
@@ -66,14 +69,13 @@ export default {
 
    methods: {
        addKeep() {
-           debugger
       this.$store.dispatch("addKeep", this.newKeep);
     },
   },
 
   computed: {
-      vaults(){
-      return this.$store.state.vaults;
+       myVaults(){
+      return this.$store.state.vaults.reverse();
     }
   },
 

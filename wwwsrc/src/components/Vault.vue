@@ -24,17 +24,17 @@ export default {
     return {}
   },
    mounted() {
-    this.$store.dispatch("getVaults")
+    this.$store.dispatch("getPrivateVaults")
   },
   computed:{
-      vaults(){
-      return this.$store.state.vaults;
+      privateVaults(){
+      return this.$store.state.privateVaults;
     }
   },
   methods:{
-     deleteThisvault() {
+     deleteThisKeep() {
       let id = this.vaultData.id;
-      this.$store.dispatch("deletevaultById", id);
+      this.$store.dispatch("deleteKeepById", id);
     }
   },
   components:{}
