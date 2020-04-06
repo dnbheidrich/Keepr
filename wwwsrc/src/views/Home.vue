@@ -13,11 +13,14 @@ export default {
   name: "home",
    mounted() {
     this.$store.dispatch("getPublicKeeps")
+    this.$store.dispatch("getVaults")
+
   },
   computed: {
      publicKeeps(){
-      return this.$store.state.publicKeeps;
-    }
+      return this.$store.state.publicKeeps.reverse();
+    },
+   
   },
   components: {
     keeps

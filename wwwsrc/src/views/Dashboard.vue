@@ -1,51 +1,84 @@
 <template>
   <div class="dashboard container-fluid">
-<div class="col-12">
-<form>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Name</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+<div class="row text-center">
+  <div class="col-12">
+
+
+
+<h1>Create Keep</h1>
+<form @submit.prevent="addKeep">
+      <input
+        v-model="newKeep.Name"
+        type="text"
+        name="make"
+        placeholder="Name..."
+        
+      />
+      <input
+       v-model="newKeep.Description" required
+        type="text"
+        name="model"
+        placeholder="Description..."
+      />
+      <input
+      v-model="newKeep.Img" required
+        type="text"
+        name="year"
+        placeholder="ImgUrl..."
+      />
+       <button type="submit" class="btn btn-success">Submit</button>
+    </form>
   </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Description</label>
-    <input type="description" class="form-control" id="exampleInputDescription" placeholder="Description">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">img</label>
-    <input type="img" class="form-control" id="exampleInputImg" placeholder="Img">
-  </div>
-  <div class="form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+  <div class="row">
+      <vaults v-for="vault in vaults" :key="vault.id" :vaultData="vault" />
+    </div>
 </div>
+
+    
+
+
+
+
     </div>
 </template>
 
 <script>
-
-import keeps from "../components/Keep";
+import vaults from "../components/Vault";
 export default {
   name: "dashboard",
   mounted() {
+    this.$store.dispatch("getVaults")
   },
+  
    data() {
     return {
-      newTask: {
+      newKeep: {
         Name: "",
         Description: "",
-        Img: ""
+        Img: "",
+        Views: 0,
+        Shares: 0,
+        Keeps: 0
+
       }
     };
   },
+
+   methods: {
+       addKeep() {
+           debugger
+      this.$store.dispatch("addKeep", this.newKeep);
+    },
+  },
+
   computed: {
-     publicKeeps(){
+      vaults(){
+      return this.$store.state.vaults;
     }
   },
+
   components: {
-    keeps
+    vaults
   }
 };
 </script>
