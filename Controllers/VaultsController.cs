@@ -8,15 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Vaultr.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class VaultsController : ControllerBase
     {
-        private readonly VaultsService _vs;
-        public VaultsController(VaultsService vs)
+        private readonly VaultsService _ks;
+        public VaultsController(VaultsService ks)
         {
-            _vs = vs;
+            _ks = ks;
         }
         [HttpGet]
         public ActionResult<IEnumerable<Vault>> Get()
@@ -24,7 +23,7 @@ namespace Vaultr.Controllers
             try
             {
                  string userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                return Ok(_vs.Get(userId));
+                return Ok(_ks.Get(userId));
             }
             catch (Exception e)
             {
@@ -36,7 +35,7 @@ namespace Vaultr.Controllers
         {
             try
             {
-                return Ok(_vs.GetById(id));
+                return Ok(_ks.GetById(id));
             }
             catch (Exception e)
             {
@@ -45,13 +44,14 @@ namespace Vaultr.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult<Vault> Post([FromBody] Vault newVault)
         {
             try
             {
                 var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 newVault.UserId = userId;
-                return Ok(_vs.Create(newVault));
+                return Ok(_ks.Create(newVault));
             }
             catch (Exception e)
             {
@@ -61,13 +61,14 @@ namespace Vaultr.Controllers
 
 
         [HttpDelete("{id}")]
+        [Authorize]
         public ActionResult<Vault> Delete(int id)
         {
             try
             {
                 string userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 // NOTE DONT TRUST THE USER TO TELL YOU WHO THEY ARE!!!!
-                return Ok(_vs.Delete(id, userId));
+                return Ok(_ks.Delete(id, userId));
             }
             catch (Exception e)
             {

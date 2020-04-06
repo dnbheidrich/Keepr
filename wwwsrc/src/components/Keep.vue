@@ -5,9 +5,10 @@
       <img :src="keepData.img" alt="">
       <div class="card-body">
         <h4 class="card-title">{{keepData.name}}</h4>
-        <p class="card-text">Body</p>
+        <p class="card-text">{{keepData.description}}</p>
+        <p>{{keepData.views}}</p>
         <button>create</button>
-        <button>stop</button>
+        <button @click="deleteThisKeep">stop</button>
       </div>
     </div>
     <hr>
@@ -33,7 +34,12 @@ export default {
       return this.$store.state.publicKeeps;
     }
   },
-  methods:{},
+  methods:{
+     deleteThisKeep() {
+      let id = this.keepData.id;
+      this.$store.dispatch("deleteKeepById", id);
+    }
+  },
   components:{}
 }
 </script>
