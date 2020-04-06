@@ -18,15 +18,22 @@ let api = Axios.create({
 export default new Vuex.Store({
   state: {
     publicKeeps: [],
+    vaults:[]
     // privateKeeps: []
   },
   mutations: {
     setPublicKeeps(state, keeps) {
       state.publicKeeps = keeps;
     },
+    setVaults(state, vaults) {
+      state.vaults = vaults;
+    },
     // setPrivateKeeps(state, keeps) {
     //   state.privateKeeps = keeps;
     // }
+    addKeep(state, newKeep) {
+      state.publicKeeps.push(newKeep)
+    }
   },
   actions: {
     setBearer({}, bearer) {
@@ -36,9 +43,37 @@ export default new Vuex.Store({
       api.defaults.headers.authorization = "";
     },
 
+    // Keeps
+
     async getPublicKeeps({ commit, dispatch }) {
       let res = await api.get("keeps");
       commit("setPublicKeeps", res.data);
+    },
+    async addKeep({commit, dispatch}, newKeep){
+      try {
+        debugger
+        let res = await api.post("keeps", newKeep )
+        commit("addKeep", res.data)
+      } catch (error) {
+        console.log(error);
+        
+        
+      }
+    },
+    async deleteKeepById({commit,dispatch}, id){
+      try {
+        let res = await api.delete("keeps/" + id)
+        commit("setPublicKeeps", res.data)
+      } catch (error) {
+        console.error(error);
+      }
+
+    },
+
+    // Vaults
+    async getVaults({ commit, dispatch }) {
+      let res = await api.get("vaults");
+      commit("setVaults", res.data);
     },
   }
 });

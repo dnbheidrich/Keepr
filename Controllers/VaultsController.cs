@@ -6,36 +6,38 @@ using Keepr.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Vaultr.Controllers
+namespace Keepr.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class VaultsController : ControllerBase
     {
-        private readonly VaultsService _ks;
-        public VaultsController(VaultsService ks)
+        private readonly VaultsService _vs;
+        public VaultsController(VaultsService vs)
         {
-            _ks = ks;
+            _vs = vs;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<Vault>> Get()
+         [Authorize]
+        public ActionResult<IEnumerable<Keep>> GetUserKeeps()
         {
             try
             {
-                 string userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                return Ok(_ks.Get(userId));
+                string userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                return Ok(_vs.GetMyVaults(userId));
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
-            };
+            }
         }
+       
        [HttpGet("{id}")]
         public ActionResult<Vault> GetById(int id)
         {
             try
             {
-                return Ok(_ks.GetById(id));
+                return Ok(_vs.GetById(id));
             }
             catch (Exception e)
             {
@@ -51,7 +53,7 @@ namespace Vaultr.Controllers
             {
                 var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 newVault.UserId = userId;
-                return Ok(_ks.Create(newVault));
+                return Ok(_vs.Create(newVault));
             }
             catch (Exception e)
             {
@@ -68,7 +70,7 @@ namespace Vaultr.Controllers
             {
                 string userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 // NOTE DONT TRUST THE USER TO TELL YOU WHO THEY ARE!!!!
-                return Ok(_ks.Delete(id, userId));
+                return Ok(_vs.Delete(id, userId));
             }
             catch (Exception e)
             {
