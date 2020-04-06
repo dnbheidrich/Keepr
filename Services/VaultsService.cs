@@ -13,9 +13,9 @@ namespace Keepr.Services
         {
             _repo = repo;
         }
-        public IEnumerable<Vault> Get()
+        public IEnumerable<Vault> Get(string id)
         {
-            return _repo.Get();
+            return _repo.Get(id);
         }
            public Vault GetById(int id)
         {

@@ -8,21 +8,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Vaultr.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class VaultsController : ControllerBase
     {
-        private readonly VaultsService _ks;
-        public VaultsController(VaultsService ks)
+        private readonly VaultsService _vs;
+        public VaultsController(VaultsService vs)
         {
-            _ks = ks;
+            _vs = vs;
         }
         [HttpGet]
         public ActionResult<IEnumerable<Vault>> Get()
         {
             try
             {
-                return Ok(_ks.Get());
+                 string userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                return Ok(_vs.Get(userId));
             }
             catch (Exception e)
             {
@@ -34,7 +36,7 @@ namespace Vaultr.Controllers
         {
             try
             {
-                return Ok(_ks.GetById(id));
+                return Ok(_vs.GetById(id));
             }
             catch (Exception e)
             {
@@ -43,14 +45,13 @@ namespace Vaultr.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public ActionResult<Vault> Post([FromBody] Vault newVault)
         {
             try
             {
                 var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 newVault.UserId = userId;
-                return Ok(_ks.Create(newVault));
+                return Ok(_vs.Create(newVault));
             }
             catch (Exception e)
             {
@@ -60,14 +61,13 @@ namespace Vaultr.Controllers
 
 
         [HttpDelete("{id}")]
-        [Authorize]
         public ActionResult<Vault> Delete(int id)
         {
             try
             {
                 string userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 // NOTE DONT TRUST THE USER TO TELL YOU WHO THEY ARE!!!!
-                return Ok(_ks.Delete(id, userId));
+                return Ok(_vs.Delete(id, userId));
             }
             catch (Exception e)
             {

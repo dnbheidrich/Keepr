@@ -1,7 +1,7 @@
 <template>
-  <div class="keep component row text-center">
+  <div class="keep component text-center">
   <div class="col-12">
-    <div class="card px-1">
+    <div class="card">
       <img :src="keepData.img" alt="">
       <div class="card-body">
         <h4 class="card-title">{{keepData.name}}</h4>
