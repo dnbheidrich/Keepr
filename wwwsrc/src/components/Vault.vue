@@ -5,11 +5,10 @@
       <div class="card-body">
         <h4 class="card-title">{{vaultData.name}}</h4>
         <p class="card-text">{{vaultData.description}}</p>
-        <button>create</button>
+        <button @click="deleteThisVault">Die</button>
       </div>
     </div>
     <hr>
-  
   </div>
 
   </div>
@@ -24,17 +23,17 @@ export default {
     return {}
   },
    mounted() {
-    this.$store.dispatch("getPrivateVaults")
+    this.$store.dispatch("getVaults")
   },
   computed:{
       privateVaults(){
-      return this.$store.state.privateVaults;
+      return this.$store.state.vaults;
     }
   },
   methods:{
-     deleteThisKeep() {
+     deleteThisVault() {
       let id = this.vaultData.id;
-      this.$store.dispatch("deleteKeepById", id);
+      this.$store.dispatch("deleteVaultById", id);
     }
   },
   components:{}

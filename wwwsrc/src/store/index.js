@@ -18,8 +18,9 @@ let api = Axios.create({
 export default new Vuex.Store({
   state: {
     publicKeeps: [],
-    vaults:[]
-    // privateKeeps: []
+    vaults:[],
+    
+    privateKeeps: []
   },
   mutations: {
     setPublicKeeps(state, keeps) {
@@ -28,16 +29,21 @@ export default new Vuex.Store({
     setVaults(state, vaults) {
       state.vaults = vaults;
     },
-    // setPrivateKeeps(state, keeps) {
-    //   state.privateKeeps = keeps;
-    // }
+    setPrivateKeeps(state, keeps) {
+      state.privateKeeps = keeps;
+    },
     addKeep(state, newKeep) {
       state.publicKeeps.push(newKeep)
-    }
+    },
+    addVault(state, newVault) {
+      state.vaults.push(newVault)
+    },
+    
   },
   actions: {
-    setBearer({}, bearer) {
+   async setBearer({ commit, dispatch }, bearer) {
       api.defaults.headers.authorization = bearer;
+      
     },
     resetBearer() {
       api.defaults.headers.authorization = "";
@@ -49,9 +55,12 @@ export default new Vuex.Store({
       let res = await api.get("keeps");
       commit("setPublicKeeps", res.data);
     },
+    async getPrivateKeeps({ commit, dispatch }) {
+      let res = await api.get("keeps/myKeeps");
+      commit("setPrivateKeeps", res.data);
+    },
     async addKeep({commit, dispatch}, newKeep){
       try {
-        debugger
         let res = await api.post("keeps", newKeep )
         commit("addKeep", res.data)
       } catch (error) {
@@ -74,6 +83,25 @@ export default new Vuex.Store({
     async getVaults({ commit, dispatch }) {
       let res = await api.get("vaults");
       commit("setVaults", res.data);
+    },
+    async addVault({commit, dispatch}, newVault){
+      try {
+        let res = await api.post("vaults", newVault )
+        commit("addVault", res.data)
+      } catch (error) {
+        console.log(error);
+        
+        
+      }
+    },
+    async deleteVaultById({commit,dispatch}, id){
+      try {
+        let res = await api.delete("vaults/" + id)
+        commit("setVaults", res.data)
+      } catch (error) {
+        console.error(error);
+      }
+
     },
   }
 });

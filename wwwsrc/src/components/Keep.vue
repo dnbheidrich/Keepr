@@ -7,8 +7,8 @@
         <h4 class="card-title">{{keepData.name}}</h4>
         <p class="card-text">{{keepData.description}}</p>
         <p>{{keepData.views}}</p>
-        <button>create</button>
-        <button @click="deleteThisKeep">stop</button>
+        <button>Keep</button>
+        <button @click="deleteThisKeep">Kill</button>
       </div>
     </div>
     <hr>
