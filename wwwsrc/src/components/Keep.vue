@@ -8,23 +8,33 @@
         <p class="card-text">{{keepData.description}}</p>
         <p>{{keepData.views}}</p>
         <button>Keep</button>
+      <p v-for="(vault, index) in userVaults" :key="vault.id" :vaultIndex="index" :vaultData="vault" @click="addVaultKeep(vault.id)">
+        {{vault.name}}
+        </p>
         <button @click="deleteThisKeep">Kill</button>
       </div>
     </div>
     <hr>
   
   </div>
+  
 
   </div>
 </template>
 
 
 <script>
+import vault from "../components/Vault"
 export default {
   name: 'component',
   props: ["keepData"],
   data(){
-    return {}
+    return {
+       newVaultKeep: {
+         vaultId: "",
+         keepId: this.keepData.id,
+       }
+    }
   },
    mounted() {
     this.$store.dispatch("getPublicKeeps")
@@ -32,15 +42,29 @@ export default {
   computed:{
       publicKeeps(){
       return this.$store.state.publicKeeps;
+    },
+     privateVaultKeeps(){
+      return this.$store.state.vaultKeeps;
+    },
+     userVaults(){
+      return this.$store.state.vaults;
     }
   },
   methods:{
+      addVaultKeep(vaultId) {
+        this.newVaultKeep.vaultId = vaultId
+      this.$store.dispatch("addVaultKeep", this.newVaultKeep);
+    },
      deleteThisKeep() {
       let id = this.keepData.id;
-      this.$store.dispatch("deleteKeepById", id);
+      this.$store.dispatch("deletePublicKeepById", id);
+      this.$store.dispatch("deletePrivateKeepById", id);
+
     }
   },
-  components:{}
+  components:{
+    vault
+  }
 }
 </script>
 

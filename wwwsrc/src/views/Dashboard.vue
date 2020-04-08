@@ -31,7 +31,7 @@
   </div>
 </div>
 <div class="row">
-      <keeps v-for="keep in userKeeps" :key="keep.id" :keepData="keep" />
+      <keep v-for="keep in userKeeps" :key="keep.id" :keepData="keep" />
     </div>
 <div class="row text-center">
       <div class="col-12">
@@ -72,7 +72,7 @@
 
 <script>
 import vaults from "../components/Vault";
-import keeps from "../components/Keep";
+import keep from "../components/Keep";
 export default {
   name: "dashboard",
  mounted() {
@@ -134,7 +134,7 @@ export default {
 
   components: {
     vaults,
-    keeps
+    keep
   }
 };
 </script>
