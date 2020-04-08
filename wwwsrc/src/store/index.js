@@ -72,6 +72,8 @@ export default new Vuex.Store({
     async deleteKeepById({commit,dispatch}, id){
       try {
         let res = await api.delete("keeps/" + id)
+        dispatch("getPublicKeeps")
+        dispatch("getPrivateKeeps")
         commit("setPublicKeeps", res.data)
       } catch (error) {
         console.error(error);

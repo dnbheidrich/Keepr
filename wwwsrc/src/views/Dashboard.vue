@@ -31,7 +31,7 @@
   </div>
 </div>
 <div class="row">
-      <keeps v-for="keep in myKeeps" :key="keep.id" :keepData="keep" />
+      <keeps v-for="keep in userKeeps" :key="keep.id" :keepData="keep" />
     </div>
 <div class="row text-center">
       <div class="col-12">
@@ -57,7 +57,7 @@
     </div>
 
   <div class="row">
-      <vaults v-for="vault in myVaults" :key="vault.id" :vaultData="vault" />
+      <vaults v-for="vault in userVaults" :key="vault.id" :vaultData="vault" />
     </div>
 
 
@@ -123,11 +123,11 @@ export default {
   },
 
   computed: {
-       myVaults(){
+       userVaults(){
       return this.$store.state.vaults.reverse();
     },
 
-     myKeeps(){
+     userKeeps(){
       return this.$store.state.privateKeeps.reverse();
     },
   },
