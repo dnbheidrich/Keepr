@@ -25,15 +25,10 @@ namespace Keepr.Repositories
             string sql = "SELECT * FROM keeps WHERE userId = @UserId";
             return _db.Query<Keep>(sql, new { UserId });
         }
-         public Keep GetById(int Id, string userId)
-        {
-            string sql = "SELECT * FROM keeps WHERE id = @Id && userId = @UserId";
-            return _db.QueryFirstOrDefault<Keep>(sql, new { Id, userId });
-        }
-          public Keep GetEditById(int Id)
+         public Keep GetById(int Id)
         {
             string sql = "SELECT * FROM keeps WHERE id = @Id";
-            return _db.QueryFirstOrDefault<Keep>(sql, new { Id});
+            return _db.QueryFirstOrDefault<Keep>(sql, new { Id });
         }
 
          internal IEnumerable<VaultKeepViewModel> GetByVaultId(int VaultId, string userId)

@@ -21,19 +21,9 @@ namespace Keepr.Services
         {
             return _repo.GetUserKeeps(userId);
         }
-           public Keep GetById(int id, string userId)
+           public Keep GetById(int id)
         {
-            Keep found = _repo.GetById(id, userId);
-            if (found == null)
-            {
-                throw new Exception("Invalid Id");
-            }
-            return found;
-        }
-
-          public Keep GetEditById(int id)
-        {
-            Keep found = _repo.GetEditById(id);
+            Keep found = _repo.GetById(id);
             if (found == null)
             {
                 throw new Exception("Invalid Id");
@@ -52,7 +42,7 @@ namespace Keepr.Services
 
      internal Keep Edit(Keep updatedKeep)
         {
-            Keep found = GetEditById(updatedKeep.Id);
+            Keep found = GetById(updatedKeep.Id);
             if (found.UserId != updatedKeep.UserId)
             {
                 throw new Exception("Invalid Request");
@@ -65,7 +55,7 @@ namespace Keepr.Services
 
     internal Keep Delete(int id, string userId)
         {
-            Keep found = GetEditById(id);
+            Keep found = GetById(id);
             if (found.UserId != userId)
             {
                 throw new Exception("Invalid Request");
