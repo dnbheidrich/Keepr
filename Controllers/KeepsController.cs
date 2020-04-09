@@ -20,6 +20,7 @@ namespace Keepr.Controllers
         {
             _ks = ks;
         }
+
         [HttpGet]
         public ActionResult<IEnumerable<Keep>> Get()
         {
@@ -47,13 +48,12 @@ namespace Keepr.Controllers
             }
         }
        [HttpGet("{id}")]
-        [Authorize]
         public ActionResult<Keep> GetById(int id)
         {
             try
             {
                 string userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                return Ok(_ks.GetById(id));
+                return Ok(_ks.GetById(id, userId));
             }
             catch (Exception e)
             {

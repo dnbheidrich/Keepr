@@ -38,6 +38,8 @@ export default new Vuex.Store({
     },
     setVaultedKeeps(state, keeps) {
       state.vaultedKeeps = keeps;
+      // Vue.set(state.vaultedKeeps, keeps.listId, keeps.data)
+
       
     },
     
@@ -132,8 +134,6 @@ export default new Vuex.Store({
         commit("addVault", res.data)
       } catch (error) {
         console.log(error);
-        
-        
       }
     },
     async deleteVaultById({commit,dispatch}, id){
@@ -156,6 +156,16 @@ export default new Vuex.Store({
       } catch (error) {
         console.log(error);
       }
+    },
+    async deleteVaultKeepById({commit,dispatch}, id){
+      try {
+        debugger
+        let res = await api.delete("vaultkeeps/" + id)
+        commit("setVaultKeeps", res.data)
+      } catch (error) {
+        console.error(error);
+      }
+
     },
   }
 });

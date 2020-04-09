@@ -7,7 +7,7 @@
         <p class="card-text">{{vaultData.description}}</p>
         <p v-for="(keep, index) in vaultedKeeps" :key="keep.id" :keepData="keep" :keepIndex="index" >
           {{keep.name}}
-          <button @click="deleteKeepByVaultId(keep.id)">Delete</button>
+          <button @click="deleteThisVaultKeep(index)">Delete</button>
         </p>
         <button @click="deleteThisVault">Die</button>
       </div>
@@ -50,15 +50,12 @@ export default {
       let id = this.vaultData.id;
       this.$store.dispatch("deleteVaultById", id);
     },
-     deleteThisKeep(id) {
-      this.$store.dispatch("deleteVaultedKeepById", id);
+    deleteThisVaultKeep(index) {
+      let id = this.vaultedKeeps[index].vaultKeepId
+      this.$store.dispatch("deleteVaultKeepById", id);
     },
-  async getKeepsByVaultId(){
-      if(await this.$auth.isAuthenticated){
+   getKeepsByVaultId(){
     this.$store.dispatch("getKeepsByVaultId", this.vaultData.id);
-      
-    }
-      
     },
 
     
